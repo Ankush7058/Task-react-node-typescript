@@ -151,7 +151,7 @@ DELETE /api/student/:id
 ## Clone Repository
 
 ```bash
-git clone <your-github-repository-url>
+git clone https://github.com/Ankush7058/Task-react-node-typescript.git
 ```
 
 ---
