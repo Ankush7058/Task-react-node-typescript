@@ -249,3 +249,21 @@ Example stored data:
 
 Ankush Pandit
 
+# Screenshots
+
+## Login Page
+
+<img width="1361" height="808" alt="image" src="https://github.com/user-attachments/assets/4a419234-9ba1-4aad-983d-b0942100ac5d" />
+
+
+## Student Registration Dashboard
+
+<img width="1657" height="756" alt="image" src="https://github.com/user-attachments/assets/4ef188c6-ed1f-4c7f-adac-45d7fc45cde8" />
+<img width="1392" height="445" alt="image" src="https://github.com/user-attachments/assets/d8947777-c13e-4f30-81b4-a01a5a116271" />
+
+
+## MongoDB Encrypted Data
+
+<img width="1917" height="863" alt="image" src="https://github.com/user-attachments/assets/50687070-224b-4551-a892-53095a9154a8" />
+
+
