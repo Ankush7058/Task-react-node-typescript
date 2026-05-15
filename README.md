@@ -305,21 +305,23 @@ Ankush Pandit
 
 ## Login Page
 
-<img width="1361" height="808" alt="image" src="https://github.com/user-attachments/assets/4a419234-9ba1-4aad-983d-b0942100ac5d" />
+<img width="1727" height="827" alt="image" src="https://github.com/user-attachments/assets/280aa752-b1a6-4249-8dda-0e9170716b5e" />
+
 
 ---
 
 ## Student Registration Dashboard
+<img width="1912" height="876" alt="image" src="https://github.com/user-attachments/assets/37c04418-0b42-4a67-9ed7-e3011e6a2448" />
 
-<img width="1657" height="756" alt="image" src="https://github.com/user-attachments/assets/4ef188c6-ed1f-4c7f-adac-45d7fc45cde8" />
+<img width="1775" height="846" alt="image" src="https://github.com/user-attachments/assets/17d3c6bb-3a4e-45cf-8ef1-4921ee7fdaea" />
 
-<img width="1392" height="445" alt="image" src="https://github.com/user-attachments/assets/d8947777-c13e-4f30-81b4-a01a5a116271" />
 
 ---
 
 ## MongoDB Encrypted Data
 
-<img width="1917" height="863" alt="image" src="https://github.com/user-attachments/assets/50687070-224b-4551-a892-53095a9154a8" />
+<img width="1868" height="826" alt="image" src="https://github.com/user-attachments/assets/d75756cb-f5ad-417d-bda4-f577c53ac33c" />
+
 
 ---
 
