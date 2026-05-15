@@ -1,4 +1,4 @@
-# React + Node Student CRUD with 2-Level Encryption
+# React + Node Student CRUD with Field-Wise 2-Level Encryption
 
 ## Project Overview
 
@@ -8,19 +8,24 @@ This project is a secure full-stack student management system built using:
 - Node.js + Express + TypeScript (Backend)
 - MongoDB Atlas (Database)
 
-The application implements CRUD operations with a custom 2-level AES encryption flow for enhanced data security.
+The application implements CRUD operations with custom field-wise 2-level AES encryption for enhanced data security and secure authentication.
 
 ---
 
 # Features
 
 ## Authentication UI
-- Login form with:
-  - Email validation
-  - Password validation
-  - Animated modern UI
+- Animated modern login UI
+- Email validation
+- Password validation
+- Login using registered student credentials
+- Default demo login support
+- Logout functionality
+
+---
 
 ## Student Registration
+
 Student form includes:
 - Full Name
 - Email
@@ -31,16 +36,25 @@ Student form includes:
 - Course Enrolled
 - Password
 
+---
+
 ## CRUD Operations
+
 - Create student
 - Read student list
 - Update student
 - Delete student
 
+---
+
 ## Security
-- Frontend AES encryption
-- Backend second-level AES encryption
-- Secure encrypted storage in MongoDB
+
+- Field-wise AES encryption
+- Frontend encryption for every field separately
+- Backend second-level encryption for every field
+- Secure encrypted MongoDB storage
+- Login authentication using encrypted credentials
+- Default demo login support
 
 ---
 
@@ -53,6 +67,8 @@ Student form includes:
 - CryptoJS
 - Vite
 - CSS3
+
+---
 
 ## Backend
 - Node.js
@@ -99,47 +115,75 @@ task-react-node-typescript/
 
 ### Frontend
 1. User fills registration form
-2. Data encrypted using AES encryption
-3. Encrypted data sent to backend
+2. Each field is encrypted separately using AES encryption
+3. Encrypted fields are sent to backend
 
 ### Backend
-4. Backend receives encrypted data
-5. Backend encrypts data again
-6. Double encrypted data stored in MongoDB
+4. Backend receives encrypted fields
+5. Backend applies second AES encryption on every field
+6. Double encrypted fields are stored in MongoDB
 
 ---
 
-# Fetch Flow
+## Fetch Flow
 
 ### Backend
-1. Backend fetches encrypted data
+1. Backend fetches encrypted fields
 2. Backend decrypts one encryption layer
-3. Sends partially encrypted data to frontend
+3. Partially encrypted fields are sent to frontend
 
 ### Frontend
 4. Frontend decrypts final encryption layer
-5. Original student data displayed in UI
+5. Original student data is displayed in UI
+
+---
+
+## Login Flow
+
+1. User enters email and password
+2. Backend decrypts stored encrypted credentials
+3. Credentials are validated securely
+4. Login access is granted on successful match
+
+---
+
+# Default Demo Login
+
+```txt
+Email: admin@test.com
+Password: admin123
+```
 
 ---
 
 # API Routes
 
+## Login
+
+```http
+POST /api/login
+```
+
 ## Create Student
+
 ```http
 POST /api/register
 ```
 
 ## Get Students
+
 ```http
 GET /api/students
 ```
 
 ## Update Student
+
 ```http
 PUT /api/student/:id
 ```
 
 ## Delete Student
+
 ```http
 DELETE /api/student/:id
 ```
@@ -214,11 +258,14 @@ MongoDB Atlas is used for database storage.
 
 Stored data is encrypted and not visible in plain text.
 
-Example stored data:
+Example stored encrypted fields:
 
 ```json
 {
-  "encryptedData": "U2FsdGVkX1..."
+  "fullName": "U2FsdGVkX1...",
+  "email": "U2FsdGVkX1...",
+  "phoneNumber": "U2FsdGVkX1...",
+  "password": "U2FsdGVkX1..."
 }
 ```
 
@@ -226,11 +273,14 @@ Example stored data:
 
 # UI Features
 
-- Animated login page
-- Modern glassmorphism UI
+- Animated authentication UI
+- Modern glassmorphism design
 - Responsive student cards
 - Smooth hover effects
 - Professional dashboard styling
+- Real login using registered student credentials
+- Default demo login support
+- Logout functionality
 
 ---
 
@@ -249,21 +299,33 @@ Example stored data:
 
 Ankush Pandit
 
+---
+
 # Screenshots
 
 ## Login Page
 
 <img width="1361" height="808" alt="image" src="https://github.com/user-attachments/assets/4a419234-9ba1-4aad-983d-b0942100ac5d" />
 
+---
 
 ## Student Registration Dashboard
 
 <img width="1657" height="756" alt="image" src="https://github.com/user-attachments/assets/4ef188c6-ed1f-4c7f-adac-45d7fc45cde8" />
+
 <img width="1392" height="445" alt="image" src="https://github.com/user-attachments/assets/d8947777-c13e-4f30-81b4-a01a5a116271" />
 
+---
 
 ## MongoDB Encrypted Data
 
 <img width="1917" height="863" alt="image" src="https://github.com/user-attachments/assets/50687070-224b-4551-a892-53095a9154a8" />
 
+---
 
+# Demo Credentials
+
+```txt
+Email: admin@test.com
+Password: admin123
+```
