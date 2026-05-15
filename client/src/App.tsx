@@ -31,9 +31,20 @@ return (
     {!isLoggedIn ? (
       <LoginForm onLogin={() => setIsLoggedIn(true)} />
     ) : (
-      <div className="app">
-        <h1>React + Node Student CRUD with 2-Level Encryption</h1>
+    <div className="app">
+  <div className="top-bar">
+    <h1>React + Node Student CRUD with 2-Level Encryption</h1>
 
+    <button
+      className="logout-btn"
+      onClick={() => {
+        setIsLoggedIn(false);
+        setSelectedStudent(null);
+      }}
+    >
+      Logout
+    </button>
+  </div>
         <StudentForm
           selectedStudent={selectedStudent}
           clearSelectedStudent={() => setSelectedStudent(null)}

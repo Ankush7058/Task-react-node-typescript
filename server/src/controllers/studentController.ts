@@ -1,20 +1,63 @@
 import { Request, Response } from "express";
 import Student from "../models/Student";
-import { encryptBackend, decryptBackend } from "../utils/crypto";
+import { encryptBackend, decryptBackend, decryptFrontendOnBackend } from "../utils/crypto";
+
+const decryptStudentOneLevel = (student: any) => ({
+  _id: student._id,
+  fullName: decryptBackend(student.fullName),
+  email: decryptBackend(student.email),
+  phoneNumber: decryptBackend(student.phoneNumber || ""),
+  dateOfBirth: decryptBackend(student.dateOfBirth || ""),
+  gender: decryptBackend(student.gender || ""),
+  address: decryptBackend(student.address || ""),
+  courseEnrolled: decryptBackend(student.courseEnrolled || ""),
+  password: decryptBackend(student.password),
+  createdAt: student.createdAt,
+  updatedAt: student.updatedAt,
+});
+
+const encryptStudentFieldsBackend = (data: any) => ({
+  fullName: encryptBackend(data.fullName),
+  email: encryptBackend(data.email),
+  phoneNumber: encryptBackend(data.phoneNumber || ""),
+  dateOfBirth: encryptBackend(data.dateOfBirth || ""),
+  gender: encryptBackend(data.gender || ""),
+  address: encryptBackend(data.address || ""),
+  courseEnrolled: encryptBackend(data.courseEnrolled || ""),
+  password: encryptBackend(data.password),
+});
 
 export const registerStudent = async (req: Request, res: Response) => {
   try {
-    const { encryptedData } = req.body;
+    const {
+      fullName,
+      email,
+      phoneNumber,
+      dateOfBirth,
+      gender,
+      address,
+      courseEnrolled,
+      password,
+    } = req.body;
 
-    if (!encryptedData) {
-      return res.status(400).json({ message: "Encrypted data is required" });
+    if (!fullName || !email || !password) {
+      return res.status(400).json({
+        message: "Full name, email and password are required",
+      });
     }
 
-    const doubleEncryptedData = encryptBackend(encryptedData);
-
-    const student = await Student.create({
-      encryptedData: doubleEncryptedData,
+    const encryptedStudent = encryptStudentFieldsBackend({
+      fullName,
+      email,
+      phoneNumber,
+      dateOfBirth,
+      gender,
+      address,
+      courseEnrolled,
+      password,
     });
+
+    const student = await Student.create(encryptedStudent);
 
     res.status(201).json({
       message: "Student registered successfully",
@@ -29,12 +72,9 @@ export const getStudents = async (_req: Request, res: Response) => {
   try {
     const students = await Student.find().sort({ createdAt: -1 });
 
-    const decryptedOneLevel = students.map((student) => ({
-      _id: student._id,
-      encryptedData: decryptBackend(student.encryptedData),
-      createdAt: student.createdAt,
-      updatedAt: student.updatedAt,
-    }));
+    const decryptedOneLevel = students.map((student) =>
+      decryptStudentOneLevel(student)
+    );
 
     res.status(200).json(decryptedOneLevel);
   } catch (error) {
@@ -44,17 +84,37 @@ export const getStudents = async (_req: Request, res: Response) => {
 
 export const updateStudent = async (req: Request, res: Response) => {
   try {
-    const { encryptedData } = req.body;
+    const {
+      fullName,
+      email,
+      phoneNumber,
+      dateOfBirth,
+      gender,
+      address,
+      courseEnrolled,
+      password,
+    } = req.body;
 
-    if (!encryptedData) {
-      return res.status(400).json({ message: "Encrypted data is required" });
+    if (!fullName || !email || !password) {
+      return res.status(400).json({
+        message: "Full name, email and password are required",
+      });
     }
 
-    const doubleEncryptedData = encryptBackend(encryptedData);
+    const encryptedStudent = encryptStudentFieldsBackend({
+      fullName,
+      email,
+      phoneNumber,
+      dateOfBirth,
+      gender,
+      address,
+      courseEnrolled,
+      password,
+    });
 
     const student = await Student.findByIdAndUpdate(
       req.params.id,
-      { encryptedData: doubleEncryptedData },
+      encryptedStudent,
       { new: true }
     );
 
@@ -82,5 +142,47 @@ export const deleteStudent = async (req: Request, res: Response) => {
     res.status(200).json({ message: "Student deleted successfully" });
   } catch (error) {
     res.status(500).json({ message: "Delete failed", error });
+  }
+};
+
+export const loginStudent = async (req: Request, res: Response) => {
+  try {
+    const { email, password } = req.body;
+
+    // Default demo login
+    if (email === "admin@test.com" && password === "admin123") {
+      return res.status(200).json({
+        message: "Default demo login successful",
+        user: {
+          email: "admin@test.com",
+          role: "Demo Admin",
+        },
+      });
+    }
+
+    const students = await Student.find();
+
+    for (const student of students) {
+      const frontendEncryptedEmail = decryptBackend(student.email);
+      const frontendEncryptedPassword = decryptBackend(student.password);
+
+      const originalEmail = decryptFrontendOnBackend(frontendEncryptedEmail);
+      const originalPassword = decryptFrontendOnBackend(frontendEncryptedPassword);
+
+      if (originalEmail === email && originalPassword === password) {
+        return res.status(200).json({
+          message: "Login successful",
+          user: {
+            id: student._id,
+            email: originalEmail,
+            role: "Student",
+          },
+        });
+      }
+    }
+
+    return res.status(401).json({ message: "Invalid email or password" });
+  } catch (error) {
+    res.status(500).json({ message: "Login failed", error });
   }
 };

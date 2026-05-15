@@ -1,5 +1,5 @@
 import axios from "axios";
-import { decryptFrontend } from "../utils/crypto";
+import { decryptStudentFields } from "../utils/crypto";
 
 const API_URL = "http://localhost:5000/api";
 
@@ -28,10 +28,7 @@ const StudentList = ({ students, setStudents, onEdit }: Props) => {
   const decryptedStudents = students
     .map((student) => {
       try {
-        return {
-          _id: student._id,
-          ...decryptFrontend(student.encryptedData),
-        };
+      return decryptStudentFields(student);
       } catch {
         return null;
       }

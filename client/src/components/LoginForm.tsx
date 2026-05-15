@@ -1,18 +1,21 @@
 import { useState } from "react";
+import axios from "axios";
 
 type Props = {
   onLogin: () => void;
 };
 
+const API_URL = "http://localhost:5000/api";
+
 const LoginForm = ({ onLogin }: Props) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("admin@test.com");
+  const [password, setPassword] = useState("admin123");
 
   const validateEmail = (value: string) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
   };
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!validateEmail(email)) {
@@ -25,7 +28,17 @@ const LoginForm = ({ onLogin }: Props) => {
       return;
     }
 
-    onLogin();
+    try {
+      await axios.post(`${API_URL}/login`, {
+        email,
+        password,
+      });
+
+      onLogin();
+    } catch (error) {
+      alert("Invalid email or password");
+      console.error(error);
+    }
   };
 
   return (
@@ -60,6 +73,7 @@ const LoginForm = ({ onLogin }: Props) => {
             <input type="submit" value="Sign in" />
           </div>
 
+          <p className="demo-login-text">Demo: admin@test.com / admin123</p>
         </form>
       </div>
     </div>

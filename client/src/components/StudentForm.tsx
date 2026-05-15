@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { encryptFrontend } from "../utils/crypto";
+import { encryptStudentFields } from "../utils/crypto";
 
 export type StudentData = {
   fullName: string;
@@ -79,20 +79,16 @@ const StudentForm = ({
     e.preventDefault();
 
     if (!validateForm()) return;
-
-    const encryptedData = encryptFrontend(formData);
+const encryptedData = encryptStudentFields(formData);
+    
 
     try {
       if (selectedStudent?._id) {
-        await axios.put(`${API_URL}/student/${selectedStudent._id}`, {
-          encryptedData,
-        });
+     await axios.put(`${API_URL}/student/${selectedStudent._id}`, encryptedData);
 
         alert("Student updated successfully");
       } else {
-        await axios.post(`${API_URL}/register`, {
-          encryptedData,
-        });
+      await axios.post(`${API_URL}/register`, encryptedData);
 
         alert("Student registered successfully");
       }

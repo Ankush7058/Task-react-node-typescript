@@ -425,3 +425,41 @@ body {
     width: 240px;
   }
 }
+
+.demo-login-text {
+  color: white;
+  font-size: 13px;
+  text-align: center;
+}
+
+.top-bar {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 35px;
+}
+
+.top-bar h1 {
+  text-align: center;
+  width: 100%;
+}
+.logout-btn {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: 0.3s ease;
+  box-shadow: 0 8px 18px rgba(239, 68, 68, 0.3);
+}
+
+.logout-btn:hover {
+  transform: translateY(-50%) scale(1.05);
+}
