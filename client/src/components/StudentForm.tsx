@@ -96,10 +96,10 @@ const encryptedData = encryptStudentFields(formData);
       setFormData(initialState);
       clearSelectedStudent();
       refreshStudents();
-    } catch (error) {
-      alert("Something went wrong");
-      console.error(error);
-    }
+    } catch (error: any) {
+  alert(error.response?.data?.message || "Something went wrong");
+  console.error(error);
+}
   };
 
   return (

@@ -7,7 +7,9 @@ import StudentList from "./components/StudentList";
 const API_URL = "http://localhost:5000/api";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(
+  localStorage.getItem("isLoggedIn") === "true"
+);
   const [students, setStudents] = useState<any[]>([]);
   const [selectedStudent, setSelectedStudent] = useState<any>(null);
 
@@ -29,7 +31,12 @@ function App() {
 return (
   <>
     {!isLoggedIn ? (
-      <LoginForm onLogin={() => setIsLoggedIn(true)} />
+    <LoginForm
+  onLogin={() => {
+    localStorage.setItem("isLoggedIn", "true");
+    setIsLoggedIn(true);
+  }}
+/>
     ) : (
     <div className="app">
   <div className="top-bar">
@@ -37,10 +44,13 @@ return (
 
     <button
       className="logout-btn"
-      onClick={() => {
-        setIsLoggedIn(false);
-        setSelectedStudent(null);
-      }}
+    onClick={() => {
+  localStorage.removeItem("isLoggedIn");
+  localStorage.removeItem("loggedInEmail");
+
+  setIsLoggedIn(false);
+  setSelectedStudent(null);
+}}
     >
       Logout
     </button>

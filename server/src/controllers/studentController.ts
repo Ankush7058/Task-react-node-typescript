@@ -46,6 +46,27 @@ export const registerStudent = async (req: Request, res: Response) => {
       });
     }
 
+// Prevent duplicate email registration
+const existingStudents = await Student.find();
+
+const incomingOriginalEmail = decryptFrontendOnBackend(email)
+  .trim()
+  .toLowerCase();
+
+for (const student of existingStudents) {
+  const frontendEncryptedEmail = decryptBackend(student.email);
+
+  const existingOriginalEmail = decryptFrontendOnBackend(frontendEncryptedEmail)
+    .trim()
+    .toLowerCase();
+
+  if (existingOriginalEmail === incomingOriginalEmail) {
+    return res.status(400).json({
+      message: "Email already registered",
+    });
+  }
+}
+
     const encryptedStudent = encryptStudentFieldsBackend({
       fullName,
       email,

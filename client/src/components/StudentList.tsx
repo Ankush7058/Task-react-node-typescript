@@ -10,21 +10,34 @@ type Props = {
 };
 
 const StudentList = ({ students, setStudents, onEdit }: Props) => {
-  const deleteStudent = async (id: string) => {
-    if (!confirm("Delete this student?")) return;
+ const deleteStudent = async (id: string, email: string) => {
+  if (!confirm("Delete this student?")) return;
 
-    try {
-      await axios.delete(`${API_URL}/student/${id}`);
+  try {
+    await axios.delete(`${API_URL}/student/${id}`);
 
-      setStudents(students.filter((student) => student._id !== id));
+    setStudents(students.filter((student) => student._id !== id));
 
-      alert("Student deleted successfully");
-    } catch (error) {
-      alert("Delete failed");
-      console.error(error);
+    // Logout immediately if deleted account is currently logged in
+    const loggedInEmail = localStorage.getItem("loggedInEmail");
+
+if (loggedInEmail === email.trim().toLowerCase()) {
+      localStorage.removeItem("isLoggedIn");
+      localStorage.removeItem("loggedInEmail");
+
+      alert("Your account has been deleted. Logging out...");
+
+      window.location.reload();
+
+      return;
     }
-  };
 
+    alert("Student deleted successfully");
+  } catch (error) {
+    alert("Delete failed");
+    console.error(error);
+  }
+};
   const decryptedStudents = students
     .map((student) => {
       try {
@@ -70,7 +83,9 @@ const StudentList = ({ students, setStudents, onEdit }: Props) => {
 
               <button
                 className="delete-btn"
-                onClick={() => deleteStudent(student._id)}
+                onClick={() =>
+  deleteStudent(student._id, student.email)
+}
               >
                 Delete
               </button>

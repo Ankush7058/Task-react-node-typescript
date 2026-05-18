@@ -34,7 +34,9 @@ const LoginForm = ({ onLogin }: Props) => {
         password,
       });
 
-      onLogin();
+   localStorage.setItem("loggedInEmail", email.trim().toLowerCase());
+
+onLogin();
     } catch (error) {
       alert("Invalid email or password");
       console.error(error);
